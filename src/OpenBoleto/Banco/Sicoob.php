@@ -219,4 +219,16 @@ class Sicoob extends BoletoAbstract
     {
         return $this->convenio;
     }
+
+    /**
+     * Define variáveis da view específicas do boleto do Santander
+     *
+     * @return array
+     */
+    public function getViewVars()
+    {
+        return array(
+            'esconde_uso_banco' => true
+        );
+    }
 }
