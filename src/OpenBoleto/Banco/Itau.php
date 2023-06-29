@@ -204,6 +204,7 @@ class Itau extends BoletoAbstract
     {
         return array(
             'carteira' => $this->getCarteira(), // Campo não utilizado pelo Itaú
+			'esconde_uso_banco' => true
         );
     }
 }
