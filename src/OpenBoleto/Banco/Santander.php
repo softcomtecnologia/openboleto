@@ -76,7 +76,11 @@ class Santander extends BoletoAbstract
      * @var int
      */
     protected $ios;
-
+    /**
+     * Define 'false' quando for Santander registrado por API, para não gerar o digito do nosso numero.
+     * @var int
+     */
+    protected $useDigitOurNumber = true;
 
     /**
      * Define o valor do IOS
@@ -99,6 +103,26 @@ class Santander extends BoletoAbstract
     }
 
     /**
+     * Define o valor do useDigitOurNumber
+     *
+     * @param boolean $useDigitOurNumber
+     */
+    public function setUseDigitOurNumber($useDigitOurNumber)
+    {
+        $this->useDigitOurNumber = $useDigitOurNumber;
+    }
+
+    /**
+     * Retorna o atual valor do useDigitOurNumber
+     *
+     * @return boolean
+     */
+    public function getUseDigitOurNumber()
+    {
+        return $this->useDigitOurNumber;
+    }
+
+    /**
      * Gera o Nosso Número.
      *
      * @return string
@@ -106,7 +130,12 @@ class Santander extends BoletoAbstract
     protected function gerarNossoNumero()
     {
         $sequencial = self::zeroFill($this->getSequencial(), 12);
-        return $sequencial . '-' . $this->gerarDigitoVerificadorNossoNumero();
+
+        if($this->getUseDigitOurNumber()){
+            return $sequencial . '-' . $this->gerarDigitoVerificadorNossoNumero();
+        }
+
+        return $sequencial = $sequencial;
     }
 
     protected function gerarDigitoVerificadorNossoNumero() {
@@ -124,13 +153,19 @@ class Santander extends BoletoAbstract
      */
     public function getCampoLivre()
     {
-        return '9' . self::zeroFill($this->getConta(), 7) .
-            self::zeroFill($this->getSequencial(), 12) .
-            self::zeroFill($this->gerarDigitoVerificadorNossoNumero(), 1) .            
-            self::zeroFill($this->getIos(), 1) .
-            self::zeroFill($this->getCarteira(), 3);
-    }
+        if($this->getUseDigitOurNumber()){
+            return '9' . self::zeroFill($this->getConta(), 7) .
+                self::zeroFill($this->getSequencial(), 12) .
+                self::zeroFill($this->gerarDigitoVerificadorNossoNumero(), 1) .            
+                self::zeroFill($this->getIos(), 1) .
+                self::zeroFill($this->getCarteira(), 3);
+        }
 
+        return '9' . self::zeroFill($this->getConta(), 7) .
+                self::zeroFill($this->getSequencial(), 13) .
+                self::zeroFill($this->getIos(), 1) .
+                self::zeroFill($this->getCarteira(), 3);
+    }
 
     /**
      * Define variáveis da view específicas do boleto do Santander
