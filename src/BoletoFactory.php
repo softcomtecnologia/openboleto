@@ -59,6 +59,7 @@ class BoletoFactory
         84 => 'Uniprime',
         422 => 'Safra',
         756 => 'Sicoob',
+        748 => 'Sicredi',
     );
 
     /**
