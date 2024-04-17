@@ -98,7 +98,7 @@ class Sicredi extends BoletoAbstract {
      * Tipo de cobrança
      * @var int
      */
-    protected $tipoCobranca = 3;
+    protected $tipoCobranca = 1;
 
     /**
      * @param string|int $codigoCliente
