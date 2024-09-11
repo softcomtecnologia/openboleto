@@ -1,3 +1,8 @@
+<?php
+
+use OpenBoleto\QrCodePix;
+
+?>
 <!--
  * OpenBoleto - Geração de boletos bancários em PHP
  *
@@ -136,9 +141,10 @@
         </td>
     </tr>
     <tr>
-        <td colspan="7" class="notopborder" valign="top">
-            <div class="conteudo"><?php echo $instrucoes[0]; ?></div>
-            <div class="conteudo"><?php echo $instrucoes[1]; ?></div>
+    <td colspan="7" class="notopborder" valign="top">
+        <div class="conteudo" style="width: 394px; word-wrap: break-word; overflow-wrap: break-word;">
+            <?php echo $instrucoes[0] . '<br>' . $instrucoes[1]; ?>
+        </div>
         </td>
         <td>
             <div class="titulo">(+) Mora / Multa</div>
@@ -147,8 +153,9 @@
     </tr>
     <tr>
         <td colspan="7" class="notopborder">
-            <div class="conteudo"><?php echo $instrucoes[2]; ?></div>
-            <div class="conteudo"><?php echo $instrucoes[3]; ?></div>
+            <div class="conteudo">
+                <?php echo $instrucoes[2] . '<br>' . $instrucoes[3]; ?>
+            </div>
         </td>
         <td>
             <div class="titulo">(+) Outros acréscimos</div>
@@ -157,8 +164,9 @@
     </tr>
     <tr>
         <td colspan="7" class="notopborder">
-            <div class="conteudo"><?php echo $instrucoes[4]; ?></div>
-            <div class="conteudo"><?php echo $instrucoes[5]; ?></div>
+        <div class="conteudo">
+                <?php echo $instrucoes[4] . '<br>' . $instrucoes[5]; ?>
+            </div>
         </td>
         <td>
             <div class="titulo">(=) Valor cobrado</div>
@@ -167,6 +175,14 @@
     </tr>
     <tr>
         <td colspan="7" valign="top">
+            <div class="notopborder nobottomborder noleftborder" style="text-align:left; vertical-align: bottom; position: relative;">
+                <!-- QR Code Container -->
+                <div style="position: absolute; bottom: 10px; right: 10px;">
+                    <?php if (isset($qr_code) && !empty($qr_code)): ?>
+                        <img src="<?php echo QrCodePix::image($qr_code); ?>" alt="QR Code" style="width: 100px;height: 97px;margin-right: -16px;margin-bottom: -8px;" />
+                    <?php endif; ?>
+                </div>
+            </div>
             <div class="titulo">Pagador</div>
             <div class="conteudo float_left"><?php echo $sacado ?><br />
             <?=$sacado_endereco1;?><br /><?=$sacado_endereco2;?></div>
